@@ -12,44 +12,44 @@ const items = [
 
 //!Funcion de compra
 function tiendaDeportiva (){
-    let continuarCompra = true;
-    let total = 0;
-    alert("¡Bienvenido a nuestra tienda de ropa deportiva!");
+    let continuarCompra = true
+    let total = 0
+    alert("¡Bienvenido a nuestra tienda de ropa deportiva!")
 
     while (continuarCompra) {
-        let listaProductos = "Productos a la venta: \n";
+        let listaProductos = "Productos a la venta: \n"
         items.forEach(items => {
-            listaProductos += `${items.id}. ${items.nombre}: $${items.precio}\n`;
-        });
+            listaProductos += `${items.id}. ${items.nombre}: $${items.precio}\n`
+        })
 
         // Prompt para elegir
-        let elegirProducto = parseInt(prompt(listaProductos + "\nIngrese el numero del producto que desea comprar\nCancel"));
+        let elegirProducto = parseInt(prompt(listaProductos + "\nIngrese el numero del producto que desea comprar\nCancel"))
 
         // Validar selección
-        let productoElegido = items.find(producto => producto.id === elegirProducto);
+        let productoElegido = items.find(producto => producto.id === elegirProducto)
 
         if (productoElegido) {
-            carrito.push(productoElegido);
-            total += productoElegido.precio;
-            alert(`${productoElegido.nombre} agregado al carrito!`);
+            carrito.push(productoElegido)
+            total += productoElegido.precio
+            alert(`${productoElegido.nombre} agregado al carrito!`)
         } else {
-            alert("Producto no válido");
+            alert("Producto no válido")
         }
 
         // Preguntar si desea seguir comprando
-        continuarCompra = confirm("¿Desea seguir comprando?");
+        continuarCompra = confirm("¿Desea seguir comprando?")
     }
 
     // Mostrar resumen de la compra
     if (carrito.length > 0) {
-        let resumen = "Resumen de su compra:\n";
+        let resumen = "Resumen de su compra:\n"
         carrito.forEach(producto => {
-            resumen += `${producto.nombre} - $${producto.precio}\n`;
-        });
-        resumen += `\nTotal a pagar: $${total}`;
-        alert(resumen);
+            resumen += `${producto.nombre} - $${producto.precio}\n`
+        })
+        resumen += `\nTotal a pagar: $${total}`
+        alert(resumen)
     } else {
-        alert("No se realizaron compras");
+        alert("No se realizaron compras")
     }
 }
 
