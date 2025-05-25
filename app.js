@@ -23,7 +23,7 @@ function tiendaDeportiva (){
         })
 
         // Prompt para elegir
-        let elegirProducto = parseInt(prompt(listaProductos + "\nIngrese el numero del producto que desea comprar\nCancel"))
+        let elegirProducto = parseInt(prompt(listaProductos + "\nIngrese el numero del producto que desea comprar\nPresione Cancelar para ir a carrito"))
 
         // Validar selección
         let productoElegido = items.find(producto => producto.id === elegirProducto)
