@@ -1,5 +1,5 @@
 //!Carrito de Compras
-let carrito = []
+let carrito = JSON.parse(localStorage.getItem("carrito")) || []
 let GranTotal = 0
 
 //!Array de Productos
@@ -8,51 +8,45 @@ const items = [
     { id:2, nombre: "Shorts", precio: 3000 },
     { id:3,  nombre: "Mochila", precio: 1500 },
     { id:4, nombre: "Gorra", precio: 800 },
-]
+];
 
-//!Funcion de compra
-function tiendaDeportiva (){
-    let continuarCompra = true
-    let total = 0
-    alert("¡Bienvenido a nuestra tienda de ropa deportiva!")
-
-    while (continuarCompra) {
-        let listaProductos = "Productos a la venta: \n"
-        items.forEach(items => {
-            listaProductos += `${items.id}. ${items.nombre}: $${items.precio}\n`
-        })
-
-        // Prompt para elegir
-        let elegirProducto = parseInt(prompt(listaProductos + "\nIngrese el numero del producto que desea comprar\nPresione Cancelar para ir a carrito"))
-
-        // Validar selección
-        let productoElegido = items.find(producto => producto.id === elegirProducto)
-
-        if (productoElegido) {
-            carrito.push(productoElegido)
-            total += productoElegido.precio
-            alert(`${productoElegido.nombre} agregado al carrito!`)
-        } else {
-            alert("Producto no válido")
-        }
-
-        // Preguntar si desea seguir comprando
-        continuarCompra = confirm("¿Desea seguir comprando?")
-    }
-
-    // Mostrar resumen de la compra
-    if (carrito.length > 0) {
-        let resumen = "Resumen de su compra:\n"
-        carrito.forEach(producto => {
-            resumen += `${producto.nombre} - $${producto.precio}\n`
-        })
-        resumen += `\nTotal a pagar: $${total}`
-        alert(resumen)
-    } else {
-        alert("No se realizaron compras")
-    }
+function renderProductos() {
+    const contenedor = document.getElementById("productos");
+    contenedor.innerHTML = "";
+    items.forEach(item => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+            <strong>${item.nombre}</strong> - $${item.precio}
+            <button onclick="agregarAlCarrito(${item.id})">Agregar</button>
+        `;
+        contenedor.appendChild(div);
+    });
 }
 
+function renderCarrito() {
+    const ul = document.getElementById("carrito");
+    ul.innerHTML = "";
+    carrito.forEach((item, idx) => {
+        const li = document.createElement("li");
+        li.textContent = `${item.nombre} - $${item.precio}`;
+        ul.appendChild(li);
+    });
+    const total = carrito.reduce((acc, prod) => acc + prod.precio, 0);
+    document.getElementById("total").textContent = "Total: $" + total;
+}
 
-//!Correr Funcion
-tiendaDeportiva()
+window.agregarAlCarrito = function(id) {
+    const producto = items.find(i => i.id === id);
+    carrito.push(producto);
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    renderCarrito();
+};
+
+document.getElementById("vaciar").onclick = function() {
+    carrito = [];
+    localStorage.removeItem("carrito");
+    renderCarrito();
+};
+
+renderProductos();
+renderCarrito();
